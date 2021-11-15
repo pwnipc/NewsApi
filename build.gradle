@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+}
+
+group 'com.chalie.newsapi'
+version '1.0-Beta'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation 'com.sparkjava:spark-core:2.9.3'
+    implementation 'org.slf4j:slf4j-simple:1.7.32'
+    implementation group: 'org.sql2o', name: 'sql2o', version: '1.5.4'
+    implementation group: 'com.h2database', name: 'h2', version: '1.4.191'
+    implementation 'com.google.code.gson:gson:2.8.9'
+}
+
+test {
+    useJUnitPlatform()
+}
