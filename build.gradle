@@ -15,7 +15,8 @@ dependencies {
     implementation 'com.sparkjava:spark-core:2.9.3'
     implementation 'org.slf4j:slf4j-simple:1.7.32'
     implementation group: 'org.sql2o', name: 'sql2o', version: '1.5.4'
-    implementation group: 'com.h2database', name: 'h2', version: '1.4.191'
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.2'
+    implementation group: 'postgresql', name: 'postgresql', version: '9.0-801.jdbc4'
     implementation 'com.google.code.gson:gson:2.8.9'
 }
 
