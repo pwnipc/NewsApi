@@ -7,13 +7,21 @@ import java.util.List;
 
 public class Sql2oDepartmentDao implements DepartmentDao{
     private final Sql2o sql2o;
-
     public Sql2oDepartmentDao(Sql2o sql2o){
         this.sql2o = sql2o;
     }
 
+    public static void getDrivers(){
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void addDepartment(Department department) {
+        getDrivers();
         String sql = "INSERT INTO departments (departmentName,departmentDescription,employees) VALUES (:departmentName,:departmentDescription,:employees)";
         try(Connection conn = sql2o.open()){
             int id = (int) conn.createQuery(sql,true)
@@ -29,6 +37,7 @@ public class Sql2oDepartmentDao implements DepartmentDao{
 
     @Override
     public List<Department> getAllDepartments() {
+        getDrivers();
         String sql = "SELECT * FROM departments";
         try(Connection conn = sql2o.open()){
             return conn.createQuery(sql)
@@ -38,6 +47,7 @@ public class Sql2oDepartmentDao implements DepartmentDao{
 
     @Override
     public Department getDepartmentById(int id) {
+        getDrivers();
         try(Connection con = sql2o.open()) {
             return con.createQuery("SELECT * FROM departments WHERE id = :id")
                     .addParameter("id", id)
@@ -47,6 +57,7 @@ public class Sql2oDepartmentDao implements DepartmentDao{
 
     @Override
     public void deleteDepartmentById(int id) {
+        getDrivers();
         String sql = "DELETE FROM departments WHERE id = :id";
         try(Connection conn = sql2o.open()){
             conn.createQuery(sql)
@@ -59,6 +70,7 @@ public class Sql2oDepartmentDao implements DepartmentDao{
 
     @Override
     public void deleteAllDepartments() {
+        getDrivers();
         String sql = "DELETE FROM departments";
         try(Connection conn = sql2o.open()){
             conn.createQuery(sql)
