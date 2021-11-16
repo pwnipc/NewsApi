@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'application'
+    id 'maven-publish'
 }
 
 group 'com.chalie.newsapi'
@@ -22,4 +24,16 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            group 'com.chalie.wt'
+            version '1.0-Beta'
+
+            from components.java
+        }
+    }
 }
