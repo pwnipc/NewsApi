@@ -50,5 +50,23 @@ public class App {
             return gson.toJson(newsDao.getGeneralNews());//send it back to be displayed
         });
 
+        //Create scoped/department News
+        post("/news/:departmentId/new", "application/json", (req, res) -> {
+            int departmentId = Integer.parseInt(req.params("departmentId"));
+            News departmentNews = gson.fromJson(req.body(), News.class);
+            departmentNews.setDepartmentId(departmentId);
+            newsDao.addNews(departmentNews);
+            res.status(201);
+            res.type("application/json");
+            return gson.toJson(departmentNews);
+        });
+
+        //Read scoped/department News
+        get("news/:departmentId", "application/json", (req, res) -> { //accept a request in format JSON from an app
+            int departmentId = Integer.parseInt(req.params("departmentId"));
+            res.type("application/json");
+            return gson.toJson(newsDao.getNewsById(departmentId));//send it back to be displayed
+        });
+
     }
 }
