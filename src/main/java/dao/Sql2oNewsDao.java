@@ -48,6 +48,15 @@ public class Sql2oNewsDao implements NewsDao{
         }
     }
 
+    public List<News> getGeneralNews() {
+        getDrivers();
+        String sql = "SELECT * FROM news where departmentId = 0";
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery(sql)
+                    .executeAndFetch(News.class);
+        }
+    }
+
     @Override
     public News getNewsById(int id) {
         getDrivers();
