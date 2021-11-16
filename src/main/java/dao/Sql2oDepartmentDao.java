@@ -32,7 +32,6 @@ public class Sql2oDepartmentDao implements DepartmentDao{
         }catch(Sql2oException e){
             System.out.println(e);
         }
-
     }
 
     @Override
