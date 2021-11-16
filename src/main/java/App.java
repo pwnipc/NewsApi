@@ -3,6 +3,7 @@ import dao.Sql2oDepartmentDao;
 import dao.Sql2oNewsDao;
 import dao.Sql2oUserDao;
 import models.Department;
+import models.News;
 import org.sql2o.Sql2o;
 
 import static spark.Spark.*;
@@ -33,5 +34,21 @@ public class App {
             res.type("application/json");
             return gson.toJson(departmentDao.getAllDepartments());//send it back to be displayed
         });
+
+        //Create General News
+        post("/GeneralNews/new", "application/json", (req, res) -> {
+            News generalNews = gson.fromJson(req.body(), News.class);
+            newsDao.addNews(generalNews);
+            res.status(201);
+            res.type("application/json");
+            return gson.toJson(generalNews);
+        });
+
+        //Read general News
+        get("news/articles/posts", "application/json", (req, res) -> { //accept a request in format JSON from an app
+            res.type("application/json");
+            return gson.toJson(newsDao.getGeneralNews());//send it back to be displayed
+        });
+
     }
 }
