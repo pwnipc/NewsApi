@@ -10,13 +10,21 @@ import java.util.List;
 
 public class Sql2oUserDao implements UserDao{
     private final Sql2o sql2o;
-
     public Sql2oUserDao(Sql2o sql2o){
         this.sql2o = sql2o;
     }
 
+    public static void getDrivers(){
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void addUser(User user) {
+        getDrivers();
         String sql = "INSERT INTO users (userName, position, role, departmentId) VALUES (:userName, :position, :role, :departmentId)";
         try(Connection conn = sql2o.open()){
             int id = (int) conn.createQuery(sql,true)
@@ -31,6 +39,7 @@ public class Sql2oUserDao implements UserDao{
 
     @Override
     public List<User> getAllUsers() {
+        getDrivers();
         String sql = "SELECT * FROM users";
         try(Connection conn = sql2o.open()){
             return conn.createQuery(sql)
@@ -40,6 +49,7 @@ public class Sql2oUserDao implements UserDao{
 
     @Override
     public User getUserById(int id) {
+        getDrivers();
         try(Connection con = sql2o.open()) {
             return con.createQuery("SELECT * FROM users WHERE id = :id")
                     .addParameter("id", id)
@@ -49,6 +59,7 @@ public class Sql2oUserDao implements UserDao{
 
     @Override
     public void deleteUsers() {
+        getDrivers();
         String sql = "DELETE FROM users";
         try(Connection conn = sql2o.open()){
             conn.createQuery(sql)
@@ -60,6 +71,7 @@ public class Sql2oUserDao implements UserDao{
 
     @Override
     public void deleteUserById(int id) {
+        getDrivers();
         String sql = "DELETE FROM users WHERE id = :id";
         try(Connection conn = sql2o.open()){
             conn.createQuery(sql)
