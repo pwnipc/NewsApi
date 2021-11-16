@@ -4,6 +4,7 @@ import dao.Sql2oNewsDao;
 import dao.Sql2oUserDao;
 import models.Department;
 import models.News;
+import models.User;
 import org.sql2o.Sql2o;
 
 import static spark.Spark.*;
@@ -11,7 +12,7 @@ public class App {
     public static void main(String[] args) {
         String connectionString = "jdbc:postgresql://localhost:5432/news_db";
         Sql2o sql2o = new Sql2o(connectionString,"ftm","sparkpass");
-        Sql2oUserDao userDaoDao = new Sql2oUserDao(sql2o);
+        Sql2oUserDao userDao = new Sql2oUserDao(sql2o);
         Sql2oNewsDao newsDao = new Sql2oNewsDao(sql2o);
         Sql2oDepartmentDao departmentDao = new Sql2oDepartmentDao(sql2o);
         Gson gson = new Gson();
@@ -66,6 +67,21 @@ public class App {
             int departmentId = Integer.parseInt(req.params("departmentId"));
             res.type("application/json");
             return gson.toJson(newsDao.getNewsById(departmentId));//send it back to be displayed
+        });
+
+        //create user
+        post("/users/new", "application/json", (req, res) -> {
+            User user = gson.fromJson(req.body(), User.class);
+            userDao.addUser(user);
+            res.status(201);
+            res.type("application/json");
+            return gson.toJson(user);
+        });
+
+        //read user
+        get("/users", "application/json", (req, res) -> { //accept a request in format JSON from an app
+            res.type("application/json");
+            return gson.toJson(userDao);//send it back to be displayed
         });
 
     }
