@@ -61,7 +61,7 @@ A rest REST API for querying and retrieving scoped news and information.
 Request curl
 
 ```curl
-curl --location --request POST 'https://allnews-api.herokuapp.com/departments/new' \
+curl --location --request POST 'https://newsapi.up.railway.app/departments/new' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "departmentName": "Tech",
